@@ -18,11 +18,11 @@ const App = ({ Component, pageProps }) => {
           key="viewport"
           maximum-scale="1"
         />
-      <link rel="icon" type="image/x-icon" href="/favicon.ico?" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico?" />
       </Head>
 
       <div
-        className="text-light-foreground dark:text-dark-foreground min-w-max text-xs md:min-w-full md:text-base"
+        className="text-light-foreground dark:text-dark-foreground text-xs w-screen md:text-base"
         onClick={onClickAnywhere}
       >
         <main className="bg-light-background dark:bg-dark-background w-full h-full p-2">

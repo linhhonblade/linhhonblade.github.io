@@ -4,13 +4,21 @@ import config from '../../config.json';
 import { Input } from '../components/input';
 import { useHistory } from '../components/history/hook';
 import { History } from '../components/history/History';
-import { banner } from '../utils/bin';
+import { banner, smallbanner } from '../utils/bin';
+import resolveConfig from 'tailwindcss/resolveConfig'
+import tailwindConfig from '../../tailwind.config.js'
 
+const fullConfig = resolveConfig(tailwindConfig)
 interface IndexPageProps {
   inputRef: React.MutableRefObject<HTMLInputElement>;
 }
 
 const IndexPage: React.FC<IndexPageProps> = ({ inputRef }) => {
+  let isDesktop
+  if (typeof window !== 'undefined') {
+    isDesktop = parseInt(fullConfig.theme.screens.md, 10) < window.innerWidth
+  }
+
   const containerRef = React.useRef(null);
   const {
     history,
@@ -22,7 +30,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ inputRef }) => {
     setLastCommandIndex,
   } = useHistory([]);
 
-  const init = React.useCallback(() => setHistory(banner()), []);
+  const init = React.useCallback(() => setHistory(isDesktop ? banner() : smallbanner()), []);
 
   React.useEffect(() => {
     init();
@@ -42,7 +50,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ inputRef }) => {
       </Head>
 
       <div className="p-8 overflow-hidden h-full border-2 rounded border-light-yellow dark:border-dark-yellow">
-        <div ref={containerRef} className="overflow-y-auto h-full">
+        <div ref={containerRef} className="overflow-y-auto overflow-x-none h-full">
           <History history={history} />
 
           <Input
